@@ -1,0 +1,6 @@
+{
+  "mqttserver": "<server>",
+  "topic_head": "fleet",
+  "mqtt_username": "<username>",
+  "mqtt_password": "<password>"
+}
