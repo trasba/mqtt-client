@@ -98,5 +98,12 @@ function main() {
         client.subscribe(strTopic + '/conn')
         getlocalIP()
         getpublicIP()
-    })     
+    })
+    client.on('message', function (topic, message) {
+    // message is Buffer
+    log.info(topic + ' : ' + message);
+    if (message == 'false') {
+        client.publish(strTopic + '/conn', 'true', { retain: true })
+    }
+    });
 }
