@@ -103,7 +103,7 @@ function main() {
     // message is Buffer
     log.info(topic + ' : ' + message);
     if (message == 'false') {
-        client.publish(strTopic + '/conn', 'true', { retain: true })
+        client.publish(strTopic + '/conn', 'true', { retain: true });
     }
     });
 }
