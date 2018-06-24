@@ -8,6 +8,7 @@ const bunyan = require('bunyan'); //for logging
 const os = require('os');
 const mqtt = require('mqtt')
 const network = require('network');
+const publicIp = require('public-ip'); //for public ipv6
 
 var eventEmitter = new events.EventEmitter();
 var log = bunyan.createLogger({ name: 'mqtt-client' });
@@ -52,6 +53,13 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
     log.info('config file loaded');
     eventEmitter.emit('config-loaded');
 });
+
+function getpublicIPv6() {
+    publicIp.v6().then(ip => {
+    client.publish(strTopic + '/ipv6_public', ip, { retain: true })
+    //=> 'fe80::200:f8ff:fe21:67cf'
+    });
+}
 
 function getpublicIP() {
     network.get_public_ip(function (err, ip) {
@@ -98,6 +106,7 @@ function main() {
         client.subscribe(strTopic + '/conn')
         getlocalIP()
         getpublicIP()
+        getpublicIPv6()
     })
     client.on('message', function (topic, message) {
     // message is Buffer
